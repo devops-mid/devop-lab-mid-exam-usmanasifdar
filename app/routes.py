@@ -3,6 +3,11 @@ from flask import render_template, request, redirect, url_for, flash
 from app import app, db
 from app.models import User
 
+# Ensure database tables are created before the first request
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -23,6 +28,12 @@ def submit():
     phone_pattern = r'^\d{10}$'
     if not re.match(phone_pattern, phone):
         flash("Phone number must be exactly 10 digits.", "error")
+        return redirect(url_for('index'))
+
+    # Check if email already exists
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        flash("Email already exists. Please use a different email.", "error")
         return redirect(url_for('index'))
 
     # Save user to database
