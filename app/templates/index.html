@@ -8,11 +8,30 @@
 </head>
 <body>
     <h1>Welcome to the Simple Web App</h1>
-    <form action="/submit" method="post">
+    <form id="userForm" action="/submit" method="post" onsubmit="return validateForm()">
         Name: <input type="text" name="name" required><br>
-        Email: <input type="email" name="email" required><br>
-        Phone: <input type="text" name="phone"><br>
+        Email: <input type="email" id="email" name="email" required><br>
+        Phone: <input type="text" id="phone" name="phone" required><br>
         <input type="submit" value="Submit">
     </form>
+
+    <script>
+        function validateForm() {
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            let phonePattern = /^\d{10}$/; // Exactly 10 digits
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+            if (!phonePattern.test(phone)) {
+                alert("Phone number must be exactly 10 digits.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
