@@ -1,3 +1,11 @@
 #!/bin/bash
+set -e  # Exit on any error
+
 echo "Building the application..."
-# TODO: Add commands to install dependencies and build the app
+
+echo "Installing dependencies..."
+pip install -r requirements.txt
+
+echo "Build completed successfully!"
+
+
